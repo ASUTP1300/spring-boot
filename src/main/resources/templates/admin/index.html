@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title > Все пользователи </title>
+        <style>
+            table {
+                margin: auto;
+            }
+            table th, table td {
+                padding: 10px;
+            }
+            .row {
+                font-style: italic;
+            }
+            .even-row {
+                color: #962f2f;
+            }
+            .odd-row {
+                color: #ff0051;
+            }
+        </style>
+    </head>
+<body>
+    <h3> <p > Таблица пользователь</p> </h3>
+    <table border="2"  align="left">
+        <tr>
+            <th> id </th>
+            <th> Имя  (LOGIN) </th>
+            <th>Фамилия </th>
+            <th>E-MAIL </th>
+            <th>Пароль</th>
+            <th>Права доступа</th>
+        </tr>
+        <tr th:each="user:${users}">
+            <td th:utext="${user.id}">No</td>
+            <td th:utext="${user.firstName}">No</td>
+            <td th:utext="${user.lastName}">No</td>
+            <td th:utext="${user.email}">No</td>
+            <td th:utext="${user.password}">No</td>
+            <td>
+                <span th:each="role:${user.roles}"
+                     th:utext="${role.role + '; '}">
+                </span>
+            </td>
+        <td>
+            <a th:href="@{/admin/{id}/edit(id =${user.getId()})}">Изменить данные о пользователе </a>
+        </td>
+        <td>
+            <form th:method="DELETE" th:action="@{/admin/delete/{id}(id = ${user.getId()})}">
+                <input type="submit" value="Удалить!"/>
+            </form>
+        </td>
+        </tr>
+    </table>
+
+    <div style="clear:both">
+        <br/>
+        <form th:action="@{/admin/new}">
+            <button type="submit">Создать нового пользователя</button>
+        </form>
+    <br/>
+    <form th:method="POST" th:action="@{/logout}">
+        <button type="submit">Выход</button>
+    </form>
+    </div>
+</body>
+</html>
